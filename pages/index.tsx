@@ -1,3 +1,5 @@
+import ActionFab from '@components/common/ActionFab';
+import Wrapper from '@components/common/Wrapper';
 import SnippetCard from '@components/Snippets/SnippetCard';
 import { list } from '@lib/snippets';
 import Head from 'next/head';
@@ -15,9 +17,13 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {records?.map((snippet) => (
-        <SnippetCard key={snippet?.slug} {...snippet} />
-      ))}
+      <Wrapper>
+        {records?.map((snippet) => (
+          <SnippetCard key={snippet?.slug} {...snippet} />
+        ))}
+      </Wrapper>
+
+      <ActionFab />
     </>
   );
 }
