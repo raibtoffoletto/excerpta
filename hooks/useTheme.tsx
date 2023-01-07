@@ -9,7 +9,7 @@ import {
 } from 'react';
 
 interface IThemeContext {
-  toggleTheme: () => void;
+  toggleTheme: TVoid;
   colorAccent: string;
   colorAccentContrast: string;
   colorAccentAlias: 'primary' | 'secondary';

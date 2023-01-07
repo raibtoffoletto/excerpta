@@ -1,12 +1,13 @@
+import Layout from '@components/common/Layout';
 import { EShortcuts } from '@constants';
 import { ProvideAuth } from '@hooks/useAuth';
+import { ProvideSearch } from '@hooks/useSearch';
 import { ProvideTheme } from '@hooks/useTheme';
 import { ProvideToast } from '@hooks/useToast';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import '../public/style.css';
-// import { App, Loader } from '../components';
-import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -43,11 +44,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <ProvideTheme>
         <ProvideToast>
           <ProvideAuth>
-            {/* <App>
-                <Loader> */}
-            <Component {...pageProps} />
-            {/* </Loader>
-              </App> */}
+            <ProvideSearch>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ProvideSearch>
           </ProvideAuth>
         </ProvideToast>
       </ProvideTheme>

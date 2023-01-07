@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { generate } from '@neo4j/graphql-ogm';
 import { join } from 'path';
 import { getOGM } from './datasource';

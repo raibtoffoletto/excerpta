@@ -5,7 +5,7 @@
  */
 import { useCallback, useEffect } from 'react';
 
-type CleanUp = (() => void) | undefined;
+type CleanUp = TVoid | undefined;
 
 type Callback = (...args: any[]) => CleanUp;
 

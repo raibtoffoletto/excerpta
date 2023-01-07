@@ -5,3 +5,5 @@ interface IToast {
 }
 
 type IChildren<T = {}> = T & { children: React.ReactNode };
+
+type TVoid = () => void;

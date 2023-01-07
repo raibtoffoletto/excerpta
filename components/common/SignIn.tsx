@@ -15,7 +15,7 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import Icon from './Icon';
 
-const SignInContainer = styled(Container)(({ theme }) => ({
+const SignInContainer = styled(Container)(() => ({
   height: '100vh',
   backgroundColor: AppTheme.primary,
   display: 'flex',
@@ -32,7 +32,7 @@ const SignInForm = styled('form')(({ theme }) => ({
   alignItems: 'flex-end',
 }));
 
-const SignInTitle = styled(Typography)(({ theme }) => ({
+const SignInTitle = styled(Typography)(() => ({
   width: '100%',
   display: 'flex',
   alignItems: 'center',
