@@ -1,6 +1,6 @@
 import { ERRORS } from '@constants';
+import { DeviceModel } from '@database';
 import { getModel } from '@datasource';
-import { Device } from '@entities';
 import { apiHandler } from '@lib/api';
 import codeGen from '@lib/codeGen';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -14,11 +14,9 @@ async function getAuth(req: NextApiRequest) {
     throw new Error(ERRORS.UNAUTHORIZED);
   }
 
-  const repository = await getModel('Device');
+  const repository = await getModel<DeviceModel>('Device');
 
-  const device: Device | undefined = (
-    await repository.find({ where: { code, userAgent } })
-  )?.[0];
+  const device = (await repository.find({ where: { code, userAgent } }))?.[0];
 
   if (!device || !device?.code || !!device?.isBlocked) {
     throw new Error(ERRORS.UNAUTHORIZED);
@@ -49,15 +47,17 @@ async function postAuth(req: NextApiRequest, res: NextApiResponse) {
 
   const code = codeGen();
 
-  const repository = await getModel('Device');
+  const repository = await getModel<DeviceModel>('Device');
 
   await repository.create({
-    input: {
-      code,
-      userAgent,
-      isBlocked: false,
-      lastUse: new Date().toISOString(),
-    },
+    input: [
+      {
+        code,
+        userAgent,
+        isBlocked: false,
+        lastUse: new Date().toISOString(),
+      },
+    ],
   });
 
   res.setHeader(
@@ -71,7 +71,7 @@ async function postAuth(req: NextApiRequest, res: NextApiResponse) {
 async function deleteAuth(req: NextApiRequest) {
   const { excerpta_device: code } = req.cookies;
 
-  const repository = await getModel('Device');
+  const repository = await getModel<DeviceModel>('Device');
 
   await repository.delete({ where: { code } });
 

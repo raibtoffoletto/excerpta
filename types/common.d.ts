@@ -4,6 +4,13 @@ interface IToast {
   duration?: number;
 }
 
-type IChildren<T = {}> = T & { children: React.ReactNode };
+type IChildren<T = object> = T & { children: React.ReactNode };
 
 type TVoid = () => void;
+
+interface IDevice {
+  code: string;
+  lastUse: string;
+  os: string;
+  browser: string;
+}

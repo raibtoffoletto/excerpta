@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { generate } from '@neo4j/graphql-ogm';
+import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { getOGM } from './datasource';
 
@@ -12,9 +13,17 @@ async function main() {
 
     const ogm = await getOGM();
 
-    const outFile = join(process.cwd(), 'types', 'entities.ts');
+    const outFile = join(process.cwd(), 'types', 'database.ts');
 
     await generate({ ogm, outFile });
+
+    console.log(`\n  🐛 Disabling ES-LINT\n`);
+
+    const types = await readFile(outFile, 'utf-8');
+
+    const fix = `/* eslint-disable */\n` + types;
+
+    await writeFile(outFile, fix);
 
     console.log(`\n  📦 Types Generated Successfully 🎉\n`);
 

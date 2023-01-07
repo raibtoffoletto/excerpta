@@ -1,4 +1,4 @@
-import { ModelMap } from '@entities';
+import { ModelMap } from '@database';
 import { OGM } from '@neo4j/graphql-ogm';
 import { readFile } from 'fs/promises';
 import neo4j, { AuthToken, Driver } from 'neo4j-driver';
@@ -42,8 +42,8 @@ export async function getOGM() {
   return ogm;
 }
 
-export async function getModel(model: string) {
+export async function getModel<T>(model: string) {
   const _ogm = await getOGM();
 
-  return _ogm.model(model);
+  return _ogm.model(model) as T;
 }

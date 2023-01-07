@@ -1,3 +1,4 @@
+/* eslint-disabled */
 import type { SelectionSetNode, DocumentNode } from "graphql";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;

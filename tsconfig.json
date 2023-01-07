@@ -12,10 +12,10 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@datasource": ["lib/database/datasource"],
       "@components/*": ["components/*"],
       "@constants": ["types/constants"],
-      "@entities": ["types/entities"],
+      "@database": ["types/database"],
+      "@datasource": ["lib/database/datasource"],
       "@hooks/*": ["hooks/*"],
       "@lib/*": ["lib/*"]
     },

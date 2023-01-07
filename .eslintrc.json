@@ -9,6 +9,7 @@
   ],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-types": "warn",
     "no-console": "warn",
     "no-extra-boolean-cast": "off",
     "no-unused-vars": "off",

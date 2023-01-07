@@ -27,6 +27,7 @@ export const ROUTES = Object.freeze({
 
 export const API = Object.freeze({
   AUTH: '/api/auth',
+  DEVICES: '/api/devices',
 });
 
 export const STORE = Object.freeze({
@@ -35,5 +36,6 @@ export const STORE = Object.freeze({
 
 export const ERRORS = Object.freeze({
   METHOD_NOT_ALLOWED: 'METHOD_NOT_ALLOWED',
+  NOT_FOUND: 'NOT_FOUND',
   UNAUTHORIZED: 'UNAUTHORIZED',
 });
