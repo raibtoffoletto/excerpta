@@ -28,3 +28,8 @@ interface SnippetDTO {
   description: string;
   tags: { tag: string }[];
 }
+
+interface TagDTO {
+  tag: string;
+  percent: number;
+}

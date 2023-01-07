@@ -3,7 +3,7 @@ import Device from '@components/Device';
 import { API } from '@constants';
 import { useAuth } from '@hooks/useAuth';
 import { list } from '@lib/devices';
-import { InferGetServerSidePropsType } from 'next';
+import type { InferGetServerSidePropsType } from 'next';
 import { useCallback, useState } from 'react';
 
 export default function Devices({
