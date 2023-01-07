@@ -3,6 +3,7 @@ import { DeviceModel } from '@database';
 import { getModel } from '@datasource';
 import { apiHandler } from '@lib/api';
 import codeGen from '@lib/codeGen';
+import { remove } from '@lib/devices';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 async function getAuth(req: NextApiRequest) {
@@ -71,9 +72,7 @@ async function postAuth(req: NextApiRequest, res: NextApiResponse) {
 async function deleteAuth(req: NextApiRequest) {
   const { excerpta_device: code } = req.cookies;
 
-  const repository = await getModel<DeviceModel>('Device');
-
-  await repository.delete({ where: { code } });
+  await remove(`${code}`);
 
   throw new Error(ERRORS.UNAUTHORIZED);
 }

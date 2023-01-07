@@ -14,3 +14,17 @@ interface IDevice {
   os: string;
   browser: string;
 }
+
+interface IPaginated<T> {
+  limit: number;
+  offset: number;
+  count: number;
+  records: T[];
+}
+
+interface SnippetDTO {
+  title: string;
+  slug: string;
+  description: string;
+  tags: { tag: string }[];
+}

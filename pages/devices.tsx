@@ -2,27 +2,22 @@ import Wrapper from '@components/common/Wrapper';
 import Device from '@components/Device';
 import { API } from '@constants';
 import { useAuth } from '@hooks/useAuth';
-import { useCallback, useEffect, useState } from 'react';
+import { list } from '@lib/devices';
+import { InferGetServerSidePropsType } from 'next';
+import { useCallback, useState } from 'react';
 
-interface GetDevices {
-  setFetch?: (status: boolean) => void;
-  signal?: AbortSignal;
-}
-
-export default function Devices() {
+export default function Devices({
+  devices: deviceList,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { device } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [devices, setDevices] = useState<IDevice[]>([]);
+  const [devices, setDevices] = useState<IDevice[]>(deviceList ?? []);
 
-  const getDevices = useCallback(async (args: GetDevices = {}) => {
+  const getDevices = useCallback(async () => {
     try {
-      const { setFetch, signal } = args;
-
       setLoading(true);
 
-      setFetch?.(true);
-      const req = await fetch(API.DEVICES, { signal });
-      setFetch?.(false);
+      const req = await fetch(API.DEVICES);
 
       if (req.status >= 400) {
         throw new Error(req.statusText);
@@ -63,24 +58,6 @@ export default function Devices() {
     [getDevices]
   );
 
-  useEffect(() => {
-    let fetching = false;
-    const setFetch = (status: boolean) => {
-      fetching = status;
-    };
-    const abort = new AbortController();
-
-    (async () => {
-      await getDevices({ setFetch, signal: abort.signal });
-    })();
-
-    return () => {
-      if (fetching) {
-        abort.abort();
-      }
-    };
-  }, [getDevices]);
-
   return (
     <Wrapper sx={{ opacity: loading ? 0.5 : 1, justifyContent: 'center' }}>
       {devices.map((_device) => (
@@ -94,4 +71,25 @@ export default function Devices() {
       ))}
     </Wrapper>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const devices = await list();
+
+    return {
+      props: {
+        devices,
+      },
+    };
+  } catch (error) {
+    // eslint-disable-next-line
+    console.log('-----\n[error]:\n', JSON.stringify(error, null, 2));
+
+    return {
+      props: {
+        NotFound: true,
+      },
+    };
+  }
 }

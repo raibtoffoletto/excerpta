@@ -1,6 +1,11 @@
+import SnippetCard from '@components/Snippets/SnippetCard';
+import { list } from '@lib/snippets';
 import Head from 'next/head';
+import type { InferGetServerSidePropsType } from 'next/types';
 
-export default function Home() {
+export default function Home({
+  records,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
       <Head>
@@ -9,7 +14,31 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      HOLA!
+
+      {records?.map((snippet) => (
+        <SnippetCard key={snippet?.slug} {...snippet} />
+      ))}
     </>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const { records } = await list({ limit: 12 });
+
+    return {
+      props: {
+        records,
+      },
+    };
+  } catch (error) {
+    // eslint-disable-next-line
+    console.log('-----\n[error]:\n', JSON.stringify(error, null, 2));
+
+    return {
+      props: {
+        NotFound: true,
+      },
+    };
+  }
 }
