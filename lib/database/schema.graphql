@@ -1,0 +1,25 @@
+type Snippet {
+  id: ID! @id(autogenerate: true) @readonly
+  title: String!
+  slug: String! @unique
+  description: String
+  snippet: String
+  tags: [Tag!]! @relationship(type: "TAGGED", direction: IN)
+  createdAt: DateTime! @timestamp(operations: [CREATE]) @readonly
+  updatedAt: DateTime @timestamp(operations: [UPDATE])
+}
+
+type Tag {
+  tag: String! @id(autogenerate: false)
+  snippets: [Snippet!]! @relationship(type: "TAGGED", direction: OUT)
+  createdAt: DateTime! @timestamp(operations: [CREATE]) @readonly
+  updatedAt: DateTime @timestamp(operations: [UPDATE])
+}
+
+type Device {
+  id: ID! @id(autogenerate: true) @readonly
+  isBlocked: Boolean! @default(value: false)
+  code: String!
+  userAgent: String!
+  lastUse: DateTime
+}

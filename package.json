@@ -1,23 +1,43 @@
 {
   "name": "excerpta",
-  "version": "0.1.0",
+  "description": "Excerpta ~ In memoria nulla fiducia",
+  "license": "GPL-3.0",
+  "version": "1.0.0",
   "private": true,
+  "author": "Raí B. Toffoletto",
+  "repository": "https://github.com/raibtoffoletto/excerpta.git",
   "scripts": {
+    "dev:db-rm": "docker rm -f -v neo4j-dev",
+    "dev:db": "docker run --restart always --name neo4j-dev -p7474:7474 -p7687:7687 -m 1g -v ${PWD}/.db/data:/data -v ${PWD}/.db/logs:/logs -d -e NEO4J_AUTH=neo4j/password -e NEO4JLABS_PLUGINS=\"[\\\"apoc\\\"]\" -e NEO4J_dbms_security_procedures_allowlist=\"apoc.*\" -e NEO4J_apoc_export_file_enabled=true -e NEO4J_apoc_import_file_enabled=true -e NEO4J_apoc_import_file_use__neo4j__config=true neo4j",
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "generate": "ts-node lib/database/generateTypes.ts",
+    "lint": "tsc --noEmit && next lint"
   },
-  "dependencies": {
-    "@next/font": "13.1.1",
+  "devDependencies": {
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "next-pwa": "5.6.0",
+    "prettier": "2.8.1",
+    "ts-node": "^10.9.1",
+    "typescript": "4.9.4"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/lab": "^5.0.0-alpha.114",
+    "@mui/material": "^5.11.3",
+    "@neo4j/graphql-ogm": "^3.14.2",
+    "@next/font": "13.1.1",
+    "graphql": "^16.6.0",
+    "neo4j-driver": "^5.3.0",
     "next": "13.1.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "4.9.4"
+    "react-dom": "18.2.0"
   }
 }

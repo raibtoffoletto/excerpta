@@ -1,3 +1,24 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": ["prettier"],
+  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
+  "rules": {
+    "no-extra-boolean-cast": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "react/display-name": "error",
+    "react/prop-types": "error",
+    "prettier/prettier": [
+      "warn",
+      {
+        "printWidth": 80,
+        "trailingComma": "es5",
+        "useTabs": false,
+        "tabWidth": 2,
+        "semi": true,
+        "singleQuote": true,
+        "arrowParens": "always"
+      }
+    ]
+  }
 }
