@@ -8,6 +8,20 @@ import {
   useState,
 } from 'react';
 
+const DARK_BG = {
+  background: {
+    default: '#121212',
+    paper: '#1A1A1E',
+  },
+};
+
+const LIGHT_BG = {
+  background: {
+    default: '#FAFAF6',
+    paper: '#F0F2F2',
+  },
+};
+
 interface IThemeContext {
   toggleTheme: TVoid;
   colorAccent: string;
@@ -37,18 +51,6 @@ export function ProvideTheme({ children }: IChildren) {
 
   const isDark = useMemo(() => !!darkTheme, [darkTheme]);
 
-  const toggleTheme = useCallback(
-    () =>
-      setDarkTheme((_theme) => {
-        const next = !_theme;
-
-        localStorage.setItem(STORE.DARK_MODE, !!next ? 'true' : 'false');
-
-        return next;
-      }),
-    []
-  );
-
   const colorAccent = useMemo(
     () => (!!isDark ? AppTheme.secondary : AppTheme.primary),
     [isDark]
@@ -64,19 +66,11 @@ export function ProvideTheme({ children }: IChildren) {
     [isDark]
   );
 
-  const backgroundOverride = isDark
-    ? {
-        background: {
-          default: '#121212',
-          paper: '#1A1A1E',
-        },
-      }
-    : {
-        background: {
-          default: '#FAFAF6',
-          paper: '#EFEFEF',
-        },
-      };
+  const backgroundOverride = isDark ? DARK_BG : LIGHT_BG;
+
+  if (typeof document !== 'undefined') {
+    document.body.style.backgroundColor = backgroundOverride.background.default;
+  }
 
   const appTheme = createTheme({
     palette: {
@@ -92,7 +86,29 @@ export function ProvideTheme({ children }: IChildren) {
 
       ...backgroundOverride,
     },
+
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          html: {
+            scrollbehavior: 'smooth',
+          },
+        },
+      },
+    },
   });
+
+  const toggleTheme = useCallback(
+    () =>
+      setDarkTheme((_theme) => {
+        const next = !_theme;
+
+        localStorage.setItem(STORE.DARK_MODE, !!next ? 'true' : 'false');
+
+        return next;
+      }),
+    []
+  );
 
   return (
     <ThemeContext.Provider
@@ -106,6 +122,7 @@ export function ProvideTheme({ children }: IChildren) {
     >
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
+
         {children}
       </ThemeProvider>
     </ThemeContext.Provider>

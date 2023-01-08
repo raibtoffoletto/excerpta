@@ -6,6 +6,11 @@ export async function list(): Promise<TagDTO[]> {
 
   const tags = await repository.find({
     selectionSet: '{ tag, snippetsConnection { totalCount } }',
+    where: {
+      snippetsAggregate: {
+        count_GT: 0,
+      },
+    },
     options: {
       sort: [
         {
@@ -25,4 +30,21 @@ export async function list(): Promise<TagDTO[]> {
       ((t.snippetsConnection.totalCount / total) * 5 + 1).toFixed(2)
     ),
   }));
+}
+
+export async function listAll(): Promise<string[]> {
+  const repository = await getModel<TagModel>('Tag');
+
+  const tags = await repository.find({
+    selectionSet: '{ tag }',
+    options: {
+      sort: [
+        {
+          tag: SortDirection.Asc,
+        },
+      ],
+    },
+  });
+
+  return tags.map((t) => t.tag);
 }

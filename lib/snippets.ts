@@ -1,4 +1,6 @@
+import { ERRORS } from '@constants';
 import {
+  Snippet,
   SnippetFulltext,
   SnippetModel,
   SnippetOptions,
@@ -23,6 +25,21 @@ interface SearchRecords {
   where?: SnippetWhere;
   fulltext?: SnippetFulltext;
   options?: SnippetOptions;
+}
+
+function mapConnectOrCreateTags(tag: string) {
+  return {
+    where: {
+      node: {
+        tag,
+      },
+    },
+    onCreate: {
+      node: {
+        tag,
+      },
+    },
+  };
 }
 
 async function searchRecords({
@@ -154,7 +171,7 @@ export async function find({
   };
 }
 
-export async function findOne(slug: string) {
+export async function findOne(slug: string): Promise<Snippet | undefined> {
   const repository = await getModel<SnippetModel>('Snippet');
 
   const search = await repository.find({
@@ -163,4 +180,77 @@ export async function findOne(slug: string) {
   });
 
   return search?.[0];
+}
+
+export async function create({
+  title,
+  slug,
+  description,
+  tags,
+  snippet,
+}: ISnippet & { snippet: string }) {
+  const repository = await getModel<SnippetModel>('Snippet');
+
+  await repository.create({
+    input: [
+      {
+        title,
+        slug,
+        description,
+        snippet,
+        tags: {
+          connectOrCreate: tags.map(mapConnectOrCreateTags),
+        },
+      },
+    ],
+  });
+}
+
+export async function update({
+  title,
+  slug,
+  description,
+  tags,
+  snippet,
+}: ISnippet & { snippet: string }) {
+  const original = await findOne(slug);
+
+  if (!original) {
+    throw new Error(ERRORS.NOT_FOUND);
+  }
+
+  const disconnect = original.tags
+    .filter((t) => !tags.includes(t.tag))
+    .map((t) => ({
+      where: {
+        node: {
+          tag: t.tag,
+        },
+      },
+    }));
+
+  const connectOrCreate = tags.map(mapConnectOrCreateTags);
+
+  const repository = await getModel<SnippetModel>('Snippet');
+
+  await repository.update({
+    where: { slug },
+    update: {
+      title,
+      description,
+      snippet,
+      tags: [
+        {
+          disconnect,
+          connectOrCreate,
+        },
+      ],
+    },
+  });
+}
+
+export async function remove(slug: string) {
+  const repository = await getModel<SnippetModel>('Snippet');
+
+  await repository.delete({ where: { slug } });
 }

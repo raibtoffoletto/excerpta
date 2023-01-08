@@ -81,9 +81,7 @@ export async function getServerSideProps({
     console.log('-----\n[error]:\n', error);
 
     return {
-      props: {
-        NotFound: true,
-      },
+      notFound: true,
     };
   }
 }

@@ -5,10 +5,9 @@ const AppContainer = styled(Container)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
-  minHeight: '100%',
+  minHeight: '90vh',
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
-  transition: theme.transitions.create('all'),
 }));
 
 export default function Layout({ children }: IChildren) {

@@ -23,7 +23,14 @@ export function apiHandler(handler: Handler, isPublic = false): Handler {
 
         const userAgent = req.headers?.['user-agent'];
 
-        if (!code || !userAgent) {
+        if (
+          !code ||
+          !userAgent ||
+          req.headers?.host !==
+            (req.headers?.origin ?? req.headers?.referer)
+              ?.replace?.(/^http(s)*:\/\//, '')
+              ?.split?.('/')?.[0]
+        ) {
           throw new Error(ERRORS.UNAUTHORIZED);
         }
 

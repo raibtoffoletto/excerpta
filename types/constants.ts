@@ -30,6 +30,7 @@ export const API = Object.freeze({
   AUTH: '/api/auth',
   DEVICES: '/api/devices',
   SEARCH: '/api/search',
+  SNIPPETS: '/api/snippets',
 });
 
 export const STORE = Object.freeze({

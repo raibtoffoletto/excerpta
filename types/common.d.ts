@@ -33,3 +33,7 @@ interface TagDTO {
   tag: string;
   percent: number;
 }
+
+interface ISnippet extends Omit<SnippetDTO, 'tags'> {
+  tags: string[];
+}
