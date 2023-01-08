@@ -65,11 +65,16 @@ export function ProvideTheme({ children }: IChildren) {
   );
 
   const backgroundOverride = isDark
-    ? {}
+    ? {
+        background: {
+          default: '#121212',
+          paper: '#1A1A1E',
+        },
+      }
     : {
         background: {
           default: '#FAFAF6',
-          paper: '#FAFAFC',
+          paper: '#EFEFEF',
         },
       };
 

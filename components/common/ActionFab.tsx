@@ -34,18 +34,19 @@ export default function ActionFab({ slug }: { slug?: string }) {
         color="primary"
         aria-label="add"
         sx={{
-          width: { xs: 48, sm: 64, md: 80 },
-          height: { xs: 48, sm: 64, md: 80 },
+          width: { xs: 40, sm: 52, md: 64 },
+          height: { xs: 40, sm: 52, md: 64 },
           position: 'fixed',
-          bottom: { xs: 16, sm: 20, md: 24 },
-          right: { xs: 16, sm: 20, md: 24 },
+          bottom: { xs: 20, sm: 24, md: 28 },
+          right: { xs: 20, sm: 24, md: 28 },
+          minHeight: 0,
         }}
         onClick={() => router.push(`${ROUTES.EDITOR}/${!!slug ? slug : 'new'}`)}
       >
         {!!slug ? (
-          <EditIcon sx={{ fontSize: { xs: 18, sm: 28, md: 38 } }} />
+          <EditIcon sx={{ fontSize: { xs: 16, sm: 24, md: 32 } }} />
         ) : (
-          <AddIcon sx={{ fontSize: { xs: 24, sm: 40, md: 56 } }} />
+          <AddIcon sx={{ fontSize: { xs: 24, sm: 32, md: 40 } }} />
         )}
       </Fab>
     </Tooltip>,

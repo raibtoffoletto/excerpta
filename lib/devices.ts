@@ -1,6 +1,17 @@
+import { ERRORS } from '@constants';
 import { DeviceModel, SortDirection } from '@database';
 import { getModel } from '@datasource';
 import UA from 'ua-parser-js';
+
+export async function validate(code: string, userAgent: string) {
+  const repository = await getModel<DeviceModel>('Device');
+
+  const device = (await repository.find({ where: { code, userAgent } }))?.[0];
+
+  if (!device || !device?.code || !!device?.isBlocked) {
+    throw new Error(ERRORS.UNAUTHORIZED);
+  }
+}
 
 export async function list(): Promise<IDevice[]> {
   const repository = await getModel<DeviceModel>('Device');

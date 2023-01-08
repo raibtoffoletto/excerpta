@@ -13,7 +13,7 @@ export interface FindSnippets {
   tag?: string;
 }
 
-interface ListSnippets {
+export interface ListSnippets {
   limit?: number;
   page?: number;
   sort?: string;
@@ -152,4 +152,15 @@ export async function find({
     count: results.length,
     records: results,
   };
+}
+
+export async function findOne(slug: string) {
+  const repository = await getModel<SnippetModel>('Snippet');
+
+  const search = await repository.find({
+    where: { slug },
+    selectionSet: '{ title, slug, description, snippet, tags { tag } }',
+  });
+
+  return search?.[0];
 }

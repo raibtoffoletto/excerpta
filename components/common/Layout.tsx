@@ -5,7 +5,7 @@ const AppContainer = styled(Container)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
-  minHeight: '100vh',
+  minHeight: '100%',
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
   transition: theme.transitions.create('all'),
@@ -19,7 +19,7 @@ export default function Layout({ children }: IChildren) {
         maxWidth="xl"
         sx={{
           px: 2,
-          py: { xs: 8, sm: 10, md: 12, lg: 14, xl: 16 },
+          py: { xs: 6, sm: 8, md: 10, lg: 12, xl: 14 },
           position: 'relative',
           flexGrow: 1,
         }}

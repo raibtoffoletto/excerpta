@@ -1,29 +1,13 @@
 import { ROUTES } from '@constants';
 import {
   Box,
-  Card as MuiCard,
+  Card,
   CardActionArea,
   CardContent,
   Chip,
-  styled,
   Typography,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-
-const Wrapper = styled(MuiCard)(({ theme }) => ({
-  minWidth: '300px',
-  flexBasis: '100%',
-  flexGrow: 1,
-  [theme.breakpoints.up('sm')]: {
-    flexBasis: 'calc(50% - 16px)',
-  },
-  [theme.breakpoints.up('md')]: {
-    flexBasis: 'calc(33% - 16px)',
-  },
-  [theme.breakpoints.up('lg')]: {
-    flexBasis: 'calc(24% - 16px)',
-  },
-}));
 
 export default function SnippetCard({
   title,
@@ -34,7 +18,7 @@ export default function SnippetCard({
   const router = useRouter();
 
   return (
-    <Wrapper elevation={4}>
+    <Card elevation={4}>
       <CardActionArea
         onClick={() => {
           router.push(`${ROUTES.SNIPPETS}/${slug}`);
@@ -67,6 +51,6 @@ export default function SnippetCard({
           </Box>
         </CardContent>
       </CardActionArea>
-    </Wrapper>
+    </Card>
   );
 }

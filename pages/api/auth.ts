@@ -3,7 +3,7 @@ import { DeviceModel } from '@database';
 import { getModel } from '@datasource';
 import { apiHandler } from '@lib/api';
 import codeGen from '@lib/codeGen';
-import { remove } from '@lib/devices';
+import { remove, validate } from '@lib/devices';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 async function getAuth(req: NextApiRequest) {
@@ -15,20 +15,16 @@ async function getAuth(req: NextApiRequest) {
     throw new Error(ERRORS.UNAUTHORIZED);
   }
 
+  await validate(code, userAgent);
+
   const repository = await getModel<DeviceModel>('Device');
-
-  const device = (await repository.find({ where: { code, userAgent } }))?.[0];
-
-  if (!device || !device?.code || !!device?.isBlocked) {
-    throw new Error(ERRORS.UNAUTHORIZED);
-  }
 
   await repository.update({
     update: { lastUse: new Date().toISOString() },
     where: { code },
   });
 
-  return { device: device.code };
+  return { device: code };
 }
 
 async function postAuth(req: NextApiRequest, res: NextApiResponse) {

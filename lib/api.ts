@@ -1,5 +1,6 @@
 import { ERRORS } from '@constants';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { validate } from './devices';
 
 type Handler = (
   req: NextApiRequest,
@@ -17,10 +18,16 @@ export function methodNotAllowed(res: NextApiResponse) {
 export function apiHandler(handler: Handler, isPublic = false): Handler {
   return async (req, res) => {
     try {
-      const { excerpta_device } = req.cookies;
+      if (!isPublic) {
+        const { excerpta_device: code } = req.cookies;
 
-      if (!isPublic && !excerpta_device) {
-        throw new Error(ERRORS.UNAUTHORIZED);
+        const userAgent = req.headers?.['user-agent'];
+
+        if (!code || !userAgent) {
+          throw new Error(ERRORS.UNAUTHORIZED);
+        }
+
+        await validate(code, userAgent);
       }
 
       const result = await handler(req, res);

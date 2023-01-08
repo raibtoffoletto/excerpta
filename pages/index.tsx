@@ -17,7 +17,14 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Wrapper>
+      <Wrapper
+        sx={{
+          display: 'grid',
+          width: '100%',
+          maxWidth: '100%',
+          gridTemplateColumns: `repeat(auto-fill, minmax(300px, 1fr))`,
+        }}
+      >
         {records?.map((snippet) => (
           <SnippetCard key={snippet?.slug} {...snippet} />
         ))}
