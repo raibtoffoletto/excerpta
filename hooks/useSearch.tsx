@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, lazy, Suspense, useContext, useMemo } from 'react';
+
+const Search = lazy(() => import('@components/Search/Window'));
 
 const SearchContext = createContext<boolean>(false);
 
@@ -18,6 +20,8 @@ export function ProvideSearch({ children }: IChildren) {
   return (
     <SearchContext.Provider value={isSearchOpen}>
       {children}
+
+      <Suspense>{isSearchOpen && <Search />}</Suspense>
     </SearchContext.Provider>
   );
 }

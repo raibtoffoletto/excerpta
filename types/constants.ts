@@ -10,6 +10,7 @@ export const EShortcuts = Object.freeze({
   LIST: 'Ctl+Alt+L',
   MENU: 'Ctl+Alt+M',
   NEW: 'Ctl+Alt+N',
+  SEARCH_FOCUS: 'Ctl+Alt+Q',
   SEARCH: 'Ctl+Alt+F',
   SIGNOUT: 'Ctl+Alt+W',
   TAGS: 'Ctl+Alt+T',
@@ -28,6 +29,7 @@ export const ROUTES = Object.freeze({
 export const API = Object.freeze({
   AUTH: '/api/auth',
   DEVICES: '/api/devices',
+  SEARCH: '/api/search',
 });
 
 export const STORE = Object.freeze({

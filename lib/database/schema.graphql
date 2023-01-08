@@ -1,4 +1,4 @@
-type Snippet {
+type Snippet @fulltext(indexes: [{ indexName: "SnippetSearch", fields: ["title", "slug", "description"] }]) {
   id: ID! @id(autogenerate: true) @readonly
   title: String!
   slug: String! @unique
@@ -9,7 +9,7 @@ type Snippet {
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
 
-type Tag {
+type Tag @fulltext(indexes: [{ indexName: "TagSearch", fields: ["tag"] }]) {
   tag: String! @id(autogenerate: false)
   snippets: [Snippet!]! @relationship(type: "TAGGED", direction: OUT)
   createdAt: DateTime! @timestamp(operations: [CREATE]) @readonly

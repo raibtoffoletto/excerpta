@@ -27,6 +27,9 @@ export function apiHandler(handler: Handler, isPublic = false): Handler {
 
       return res.status(200).json(result);
     } catch (error: any) {
+      // eslint-disable-next-line
+      console.log('-----\n[error]:\n', error);
+
       if (error?.message === ERRORS.UNAUTHORIZED) {
         res.setHeader(
           'Set-Cookie',

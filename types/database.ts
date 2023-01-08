@@ -1,4 +1,4 @@
-/* eslint-disabled */
+/* eslint-disable */
 import type { SelectionSetNode, DocumentNode } from "graphql";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -29,9 +29,11 @@ export type Scalars = {
 
 export type Query = {
   __typename?: "Query";
+  snippetsFulltextSnippetSearch: Array<SnippetFulltextResult>;
   snippets: Array<Snippet>;
   snippetsAggregate: SnippetAggregateSelection;
   snippetsConnection: SnippetsConnection;
+  tagsFulltextTagSearch: Array<TagFulltextResult>;
   tags: Array<Tag>;
   tagsAggregate: TagAggregateSelection;
   tagsConnection: TagsConnection;
@@ -40,13 +42,23 @@ export type Query = {
   devicesConnection: DevicesConnection;
 };
 
+export type QuerySnippetsFulltextSnippetSearchArgs = {
+  phrase: Scalars["String"];
+  where?: InputMaybe<SnippetFulltextWhere>;
+  sort?: InputMaybe<Array<SnippetFulltextSort>>;
+  limit?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
+};
+
 export type QuerySnippetsArgs = {
   where?: InputMaybe<SnippetWhere>;
   options?: InputMaybe<SnippetOptions>;
+  fulltext?: InputMaybe<SnippetFulltext>;
 };
 
 export type QuerySnippetsAggregateArgs = {
   where?: InputMaybe<SnippetWhere>;
+  fulltext?: InputMaybe<SnippetFulltext>;
 };
 
 export type QuerySnippetsConnectionArgs = {
@@ -54,15 +66,26 @@ export type QuerySnippetsConnectionArgs = {
   after?: InputMaybe<Scalars["String"]>;
   where?: InputMaybe<SnippetWhere>;
   sort?: InputMaybe<Array<InputMaybe<SnippetSort>>>;
+  fulltext?: InputMaybe<SnippetFulltext>;
+};
+
+export type QueryTagsFulltextTagSearchArgs = {
+  phrase: Scalars["String"];
+  where?: InputMaybe<TagFulltextWhere>;
+  sort?: InputMaybe<Array<TagFulltextSort>>;
+  limit?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
 };
 
 export type QueryTagsArgs = {
   where?: InputMaybe<TagWhere>;
   options?: InputMaybe<TagOptions>;
+  fulltext?: InputMaybe<TagFulltext>;
 };
 
 export type QueryTagsAggregateArgs = {
   where?: InputMaybe<TagWhere>;
+  fulltext?: InputMaybe<TagFulltext>;
 };
 
 export type QueryTagsConnectionArgs = {
@@ -70,6 +93,7 @@ export type QueryTagsConnectionArgs = {
   after?: InputMaybe<Scalars["String"]>;
   where?: InputMaybe<TagWhere>;
   sort?: InputMaybe<Array<InputMaybe<TagSort>>>;
+  fulltext?: InputMaybe<TagFulltext>;
 };
 
 export type QueryDevicesArgs = {
@@ -300,6 +324,13 @@ export type SnippetEdge = {
   node: Snippet;
 };
 
+/** The result of a fulltext search on an index of Snippet */
+export type SnippetFulltextResult = {
+  __typename?: "SnippetFulltextResult";
+  score: Scalars["Float"];
+  snippet: Snippet;
+};
+
 export type SnippetsConnection = {
   __typename?: "SnippetsConnection";
   totalCount: Scalars["Int"];
@@ -386,6 +417,13 @@ export type TagEdge = {
   __typename?: "TagEdge";
   cursor: Scalars["String"];
   node: Tag;
+};
+
+/** The result of a fulltext search on an index of Tag */
+export type TagFulltextResult = {
+  __typename?: "TagFulltextResult";
+  score: Scalars["Float"];
+  tag: Tag;
 };
 
 export type TagsConnection = {
@@ -527,6 +565,12 @@ export type DeviceWhere = {
   lastUse_GTE?: InputMaybe<Scalars["DateTime"]>;
 };
 
+/** The input for filtering a float */
+export type FloatWhere = {
+  min?: InputMaybe<Scalars["Float"]>;
+  max?: InputMaybe<Scalars["Float"]>;
+};
+
 export type SnippetConnectInput = {
   tags?: InputMaybe<Array<SnippetTagsConnectFieldInput>>;
 };
@@ -559,6 +603,22 @@ export type SnippetDisconnectInput = {
   tags?: InputMaybe<Array<SnippetTagsDisconnectFieldInput>>;
 };
 
+export type SnippetFulltext = {
+  SnippetSearch?: InputMaybe<SnippetSnippetSearchFulltext>;
+};
+
+/** The input for sorting a fulltext query on an index of Snippet */
+export type SnippetFulltextSort = {
+  score?: InputMaybe<SortDirection>;
+  snippet?: InputMaybe<SnippetSort>;
+};
+
+/** The input for filtering a fulltext query on an index of Snippet */
+export type SnippetFulltextWhere = {
+  score?: InputMaybe<FloatWhere>;
+  snippet?: InputMaybe<SnippetWhere>;
+};
+
 export type SnippetOnCreateInput = {
   title: Scalars["String"];
   slug: Scalars["String"];
@@ -575,6 +635,10 @@ export type SnippetOptions = {
 
 export type SnippetRelationInput = {
   tags?: InputMaybe<Array<SnippetTagsCreateFieldInput>>;
+};
+
+export type SnippetSnippetSearchFulltext = {
+  phrase: Scalars["String"];
 };
 
 /** Fields to sort Snippets by. The order in which sorts are applied is not guaranteed when specifying many fields in one SnippetSort object. */
@@ -847,6 +911,22 @@ export type TagDisconnectInput = {
   snippets?: InputMaybe<Array<TagSnippetsDisconnectFieldInput>>;
 };
 
+export type TagFulltext = {
+  TagSearch?: InputMaybe<TagTagSearchFulltext>;
+};
+
+/** The input for sorting a fulltext query on an index of Tag */
+export type TagFulltextSort = {
+  score?: InputMaybe<SortDirection>;
+  tag?: InputMaybe<TagSort>;
+};
+
+/** The input for filtering a fulltext query on an index of Tag */
+export type TagFulltextWhere = {
+  score?: InputMaybe<FloatWhere>;
+  tag?: InputMaybe<TagWhere>;
+};
+
 export type TagOnCreateInput = {
   tag: Scalars["String"];
 };
@@ -1055,6 +1135,10 @@ export type TagSort = {
   updatedAt?: InputMaybe<SortDirection>;
 };
 
+export type TagTagSearchFulltext = {
+  phrase: Scalars["String"];
+};
+
 export type TagUniqueWhere = {
   tag?: InputMaybe<Scalars["String"]>;
 };
@@ -1150,7 +1234,7 @@ export interface SnippetAggregateSelectionInput {
 export declare class SnippetModel {
   public find(args?: {
     where?: SnippetWhere;
-
+    fulltext?: SnippetFulltext;
     options?: SnippetOptions;
     selectionSet?: string | DocumentNode | SelectionSetNode;
     args?: any;
@@ -1184,7 +1268,7 @@ export declare class SnippetModel {
   }): Promise<{ nodesDeleted: number; relationshipsDeleted: number }>;
   public aggregate(args: {
     where?: SnippetWhere;
-
+    fulltext?: SnippetFulltext;
     aggregate: SnippetAggregateSelectionInput;
     context?: any;
     rootValue?: any;
@@ -1221,7 +1305,7 @@ export interface TagAggregateSelectionInput {
 export declare class TagModel {
   public find(args?: {
     where?: TagWhere;
-
+    fulltext?: TagFulltext;
     options?: TagOptions;
     selectionSet?: string | DocumentNode | SelectionSetNode;
     args?: any;
@@ -1255,7 +1339,7 @@ export declare class TagModel {
   }): Promise<{ nodesDeleted: number; relationshipsDeleted: number }>;
   public aggregate(args: {
     where?: TagWhere;
-
+    fulltext?: TagFulltext;
     aggregate: TagAggregateSelectionInput;
     context?: any;
     rootValue?: any;

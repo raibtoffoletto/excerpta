@@ -22,7 +22,6 @@ export default function Device({
       sx={{
         minWidth: { xs: 0, sm: '360px' },
         padding: ({ spacing }) => spacing(1.5),
-        opacity: disabled ? 0.8 : 1,
       }}
     >
       <CardContent

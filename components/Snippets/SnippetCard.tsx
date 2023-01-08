@@ -51,7 +51,7 @@ export default function SnippetCard({
             {description}
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            {tags.map((x) => (
+            {tags?.map?.((x) => (
               <Chip
                 key={x.tag}
                 label={x.tag}

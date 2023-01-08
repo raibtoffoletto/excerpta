@@ -55,7 +55,7 @@ export async function getServerSideProps() {
     };
   } catch (error) {
     // eslint-disable-next-line
-    console.log('-----\n[error]:\n', JSON.stringify(error, null, 2));
+    console.log('-----\n[error]:\n', error);
 
     return {
       props: {

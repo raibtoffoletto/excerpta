@@ -1,4 +1,5 @@
 import { ModelMap } from '@database';
+import { Neo4jGraphQL } from '@neo4j/graphql';
 import { OGM } from '@neo4j/graphql-ogm';
 import { readFile } from 'fs/promises';
 import neo4j, { AuthToken, Driver } from 'neo4j-driver';
@@ -34,6 +35,23 @@ export async function getOGM() {
     join(process.cwd(), 'lib', 'database', 'schema.graphql'),
     'utf-8'
   );
+
+  try {
+    /**
+     * GraphQL is not used in this project, however this step is necessary
+     * in order to ensure the schema indices are present in the database.
+     **/
+    const schema = new Neo4jGraphQL({ typeDefs });
+
+    await schema.getSchema();
+
+    await schema.assertIndexesAndConstraints({
+      driver,
+      options: { create: true },
+    });
+  } catch (error) {
+    console.log('-----\n[db init error]:\n', error); // eslint-disable-line
+  }
 
   ogm = new OGM<ModelMap>({ typeDefs, driver });
 

@@ -26,7 +26,7 @@ interface SnippetDTO {
   title: string;
   slug: string;
   description: string;
-  tags: { tag: string }[];
+  tags?: { tag: string }[];
 }
 
 interface TagDTO {

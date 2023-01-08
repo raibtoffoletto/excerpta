@@ -5,7 +5,7 @@
  */
 import { useCallback, useEffect } from 'react';
 
-type CleanUp = TVoid | undefined;
+type CleanUp = TVoid | undefined | void;
 
 type Callback = (...args: any[]) => CleanUp;
 
@@ -14,7 +14,7 @@ export default function useDebouncedEffect(
   deps: any[],
   delay = 666
 ): void {
-  const callback = useCallback(effect, [...deps]);
+  const callback = useCallback(effect, [...deps]); // eslint-disable-line
 
   useEffect(() => {
     let cleanUp: CleanUp;
