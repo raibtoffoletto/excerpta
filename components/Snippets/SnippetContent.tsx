@@ -191,7 +191,6 @@ function CodeBlock({ inline, className, children }: CodeProps) {
       <RSHl
         language={`${className}`?.split?.('-')?.[1] ?? 'javascript'}
         showLineNumbers
-        wrapLongLines
         style={isDark ? darcula : prism}
       >
         {`${children}`}
