@@ -13,10 +13,10 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
 
   env: {
-    APP_PASSWORD: process.env.APP_PASSWORD ?? 'password',
-    DB_PASSWORD: process.env.DB_PASSWORD ?? 'password',
-    DB_USER: process.env.DB_USER ?? 'neo4j',
-    DB_URI: process.env.DB_URI ?? 'bolt://localhost:7687',
+    APP_PASSWORD: process.env.APP_PASSWORD,
+    DB_PASSWORD: process.env.DB_PASSWORD,
+    DB_USER: process.env.DB_USER,
+    DB_URI: process.env.DB_URI,
   },
 };
 

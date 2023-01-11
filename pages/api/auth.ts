@@ -6,6 +6,11 @@ import codeGen from '@lib/codeGen';
 import { remove, validate } from '@lib/devices';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+const APP_PASSWORD =
+  process.env.NODE_ENV === 'production'
+    ? String(process.env.APP_PASSWORD)
+    : String(process.env.APP_PASSWORD ?? 'password');
+
 async function getAuth(req: NextApiRequest) {
   const { excerpta_device: code } = req.cookies;
 
@@ -28,8 +33,6 @@ async function getAuth(req: NextApiRequest) {
 }
 
 async function postAuth(req: NextApiRequest, res: NextApiResponse) {
-  const APP_PASSWORD = process.env.APP_PASSWORD;
-
   if (!APP_PASSWORD) {
     throw new Error('Password not set in environment!');
   }

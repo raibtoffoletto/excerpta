@@ -7,8 +7,16 @@ import { join } from 'path';
 
 let ogm: OGM<ModelMap> | undefined = undefined;
 
-const DB_PASSWORD = String(process.env.DB_PASSWORD ?? 'password');
-const DB_USER = String(process.env.DB_USER ?? 'neo4j');
+const DB_PASSWORD =
+  process.env.NODE_ENV === 'production'
+    ? String(process.env.DB_PASSWORD)
+    : String(process.env.DB_PASSWORD ?? 'password');
+
+const DB_USER =
+  process.env.NODE_ENV === 'production'
+    ? String(process.env.DB_USER)
+    : String(process.env.DB_USER ?? 'neo4j');
+
 const DB_URI = String(process.env.DB_URI ?? 'bolt://localhost:7687');
 
 const connection: { url: string; authToken: AuthToken } = {
@@ -50,7 +58,7 @@ export async function getOGM() {
       options: { create: true },
     });
   } catch (error) {
-    console.log('-----\n[db init error]:\n', error); // eslint-disable-line
+    console.log('-----\n[db init error]:\n', error, connection); // eslint-disable-line
   }
 
   ogm = new OGM<ModelMap>({ typeDefs, driver });
