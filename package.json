@@ -7,7 +7,8 @@
   "author": "Raí B. Toffoletto",
   "repository": "https://github.com/raibtoffoletto/excerpta.git",
   "scripts": {
-    "build": "docker build -t excerpta .",
+    "build": "next build",
+    "build:docker": "docker build -t excerpta .",
     "dev:db-rm": "docker rm -f -v neo4j-dev",
     "dev:db": "docker run --restart always --name neo4j-dev -p7474:7474 -p7687:7687 -m 1g -v ${PWD}/.db/backups:/backups -v ${PWD}/.db/data:/data -v ${PWD}/.db/logs:/logs -d -e NEO4J_AUTH=neo4j/password -e NEO4JLABS_PLUGINS=\"[\\\"apoc\\\"]\" -e NEO4J_dbms_security_procedures_allowlist=\"apoc.*\" -e NEO4J_apoc_export_file_enabled=true -e NEO4J_apoc_import_file_enabled=true -e NEO4J_apoc_import_file_use__neo4j__config=true neo4j",
     "dev": "next dev",

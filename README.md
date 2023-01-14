@@ -121,7 +121,7 @@ yarn generate
 To build and run a local docker image:
 
 ```bash
-yarn build
+yarn build:docker
 
 docker run -d -e APP_PASSWORD="password" -e DB_PASSWORD="password" -e DB_USER="neo4j" -e DB_URI="bolt://localhost:7687" --network host --name excerpta excerpta
 ```
