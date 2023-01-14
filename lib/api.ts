@@ -47,7 +47,7 @@ export function apiHandler(handler: Handler, isPublic = false): Handler {
       if (error?.message === ERRORS.UNAUTHORIZED) {
         res.setHeader(
           'Set-Cookie',
-          'excerpta_device=null;Max-Age=-1;Path=/;HttpOnly;SameSite=Lax'
+          'excerpta_device=null;Max-Age=-1;Path=/;HttpOnly;SameSite=Strict'
         );
 
         return unauthorized(res);

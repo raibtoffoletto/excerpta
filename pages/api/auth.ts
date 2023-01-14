@@ -62,7 +62,7 @@ async function postAuth(req: NextApiRequest, res: NextApiResponse) {
 
   res.setHeader(
     'Set-Cookie',
-    `excerpta_device=${code};Path=/;HttpOnly;SameSite=Lax`
+    `excerpta_device=${code};Path=/;HttpOnly;SameSite=Strict`
   );
 
   return { device: code };
