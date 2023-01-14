@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  neo4j:
+    image: neo4j:5.3.0-community
+    restart: always
+    container_name: excerpta-db
+    # In case you want access to
+    # the database management.
+    # ports:
+    #   - 7474:7474
+    #   - 7687:7687
+    volumes:
+      - ./backups:/backups
+      - ./data:/data
+      - ./logs:/logs
+    environment:
+      - NEO4J_AUTH
+      - NEO4JLABS_PLUGINS=[\"apoc\"]
+      - NEO4J_dbms_security_procedures_allowlist=apoc.*
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+  app:
+    image: raibtoffoletto/excerpta:1.0.0
+    restart: always
+    container_name: excerpta
+    ports:
+      - 3000:3000
+    links:
+      - neo4j:neo4j
+    depends_on:
+      - neo4j
+    environment:
+      - APP_PASSWORD
+      - DB_USER
+      - DB_PASSWORD
+      - DB_URI
