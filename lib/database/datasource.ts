@@ -24,7 +24,7 @@ const connection: { url: string; authToken: AuthToken } = {
   authToken: neo4j.auth.basic(DB_USER, DB_PASSWORD),
 };
 
-const driver: Driver = neo4j.driver(
+const defaultDriver: Driver = neo4j.driver(
   connection.url,
   connection.authToken,
   /**
@@ -34,10 +34,12 @@ const driver: Driver = neo4j.driver(
   { disableLosslessIntegers: true }
 );
 
-export async function getOGM() {
+export async function getOGM(_driver: Driver | undefined = undefined) {
   if (!!ogm) {
     return ogm;
   }
+
+  const driver = _driver || defaultDriver;
 
   const typeDefs = await readFile(
     join(process.cwd(), 'lib', 'database', 'schema.graphql'),
@@ -68,8 +70,11 @@ export async function getOGM() {
   return ogm;
 }
 
-export async function getModel<T>(model: string) {
-  const _ogm = await getOGM();
+export async function getModel<T>(
+  model: string,
+  _driver: Driver | undefined = undefined
+) {
+  const _ogm = await getOGM(_driver);
 
   return _ogm.model(model) as T;
 }
