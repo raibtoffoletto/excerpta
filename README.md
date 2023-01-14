@@ -29,7 +29,7 @@ services:
       - ./logs:/logs
     environment:
       - NEO4J_AUTH
-      - NEO4JLABS_PLUGINS=[\"apoc\"]
+      - NEO4JLABS_PLUGINS=["apoc"]
       - NEO4J_dbms_security_procedures_allowlist=apoc.*
       - NEO4J_apoc_export_file_enabled=true
       - NEO4J_apoc_import_file_enabled=true
