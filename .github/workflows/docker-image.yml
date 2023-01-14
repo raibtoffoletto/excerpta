@@ -12,12 +12,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Get curreant version
+      run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV    
     - name: Docker Hub SignIn
       env:
         DOCKER_HUB_USER: ${{secrets.DOCKER_HUB_USER}}
         DOCKER_HUB_TOKEN: ${{secrets.DOCKER_HUB_TOKEN}}
       run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
     - name: Build the Docker image
-      run: docker build . --tag raibtoffoletto/excerpta:$GITHUB_REF
+      run: docker build . --tag raibtoffoletto/excerpta:$TAG_VERSION
     - name: Push the Docker image
-      run: docker push raibtoffoletto/excerpta:$GITHUB_REF
+      run: docker push raibtoffoletto/excerpta:$TAG_VERSION
