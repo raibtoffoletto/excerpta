@@ -19,5 +19,7 @@ jobs:
         run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
       - name: Build the Docker image
         run: docker build . --tag raibtoffoletto/excerpta:$TAG_VERSION
+      - name: Tag Docker image as latest
+        run: docker tag raibtoffoletto/excerpta:$TAG_VERSION raibtoffoletto/excerpta:latest
       - name: Push the Docker image
         run: docker push raibtoffoletto/excerpta:$TAG_VERSION
